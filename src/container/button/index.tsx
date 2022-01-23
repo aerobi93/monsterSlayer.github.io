@@ -55,56 +55,7 @@ const mapDispatchToProps = (dispatch: any) => ({
       }, 1000)
     } 
     setTimeout(()=> {
-      let random: number = round(1, 3)
-      if (random == 1) {
-        moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
-        setTimeout(() => {
-          dispatch(attack('monster', 'normal')) 
-          dispatch(changeDisplayAnimation())
-        }, 1000)
-      }
-      else if (random == 2 && store.getState().monsterMana - 10 >= 0) {
-        moving(starMonster!, playerDiv!,  'healing', 1000, 'monster')
-        setTimeout(() => {
-          dispatch(heal('monster'))
-          dispatch(changeDisplayAnimation())
-        }, 1000);
-      }
-      else if (random == 3 && store.getState().monsterMana - 20 >= 0) {
-        moving(fireMonster!, playerDiv!, 'fire', 1000, 'monster' )
-        setTimeout(() => {
-          dispatch(changeDisplayAnimation())
-          dispatch(attack('monster', 'special'))
-        }, 1000)
-      }
-      else {
-        moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
-        setTimeout(() => {
-          dispatch(attack('monster', 'normal')) 
-          dispatch(changeDisplayAnimation())
-        }, 1000)
-      }       
-   }, 1000)
-  },
-
-  heal: () => {
-    const playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
-    let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
-    let fireMonster:HTMLElement | null = document.getElementById('fire-'+store.getState().monsterName)
-    let starPlayer: HTMLElement | null = document.getElementById('star-'+store.getState().gamerName)
-    let starMonster: HTMLElement | null = document.getElementById('star-'+store.getState().monsterName)
-  
-    if (store.getState().playerMana - 10 < 0) {
-      alert("vos n avez plus assez de mana votre sort a echouer")
-    }
-    else if ((store.getState().playerMana - 10 > 0 ) ){
-      dispatch(changeDisplayAnimation())
-      moving(starPlayer!, playerDiv!,  'healing', 1000, 'player')
-       setTimeout(() => {
-        dispatch(heal('player'))
-       }, 1000);
-       
-       setTimeout(()=> {
+      if (store.getState().monsterPv > 0) {
         let random: number = round(1, 3)
         if (random == 1) {
           moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
@@ -133,7 +84,60 @@ const mapDispatchToProps = (dispatch: any) => ({
             dispatch(attack('monster', 'normal')) 
             dispatch(changeDisplayAnimation())
           }, 1000)
-        }       
+        }
+      }    
+   }, 1000)
+  },
+
+  heal: () => {
+    const playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
+    let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
+    let fireMonster:HTMLElement | null = document.getElementById('fire-'+store.getState().monsterName)
+    let starPlayer: HTMLElement | null = document.getElementById('star-'+store.getState().gamerName)
+    let starMonster: HTMLElement | null = document.getElementById('star-'+store.getState().monsterName)
+  
+    if (store.getState().playerMana - 10 < 0) {
+      alert("vos n avez plus assez de mana votre sort a echouer")
+    }
+    else if ((store.getState().playerMana - 10 > 0 ) ){
+      dispatch(changeDisplayAnimation())
+      moving(starPlayer!, playerDiv!,  'healing', 1000, 'player')
+       setTimeout(() => {
+        dispatch(heal('player'))
+       }, 1000);
+       
+       setTimeout(()=> {
+        if (store.getState().monsterPv > 0) {
+          let random: number = round(1, 3)
+          if (random == 1) {
+            moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
+            setTimeout(() => {
+              dispatch(attack('monster', 'normal')) 
+              dispatch(changeDisplayAnimation())
+            }, 1000)
+          }
+          else if (random == 2 && store.getState().monsterMana - 10 >= 0) {
+            moving(starMonster!, playerDiv!,  'healing', 1000, 'monster')
+            setTimeout(() => {
+              dispatch(heal('monster'))
+              dispatch(changeDisplayAnimation())
+            }, 1000);
+          }
+          else if (random == 3 && store.getState().monsterMana - 20 >= 0) {
+            moving(fireMonster!, playerDiv!, 'fire', 1000, 'monster' )
+            setTimeout(() => {
+              dispatch(changeDisplayAnimation())
+              dispatch(attack('monster', 'special'))
+            }, 1000)
+          }
+          else {
+            moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
+            setTimeout(() => {
+              dispatch(attack('monster', 'normal')) 
+              dispatch(changeDisplayAnimation())
+            }, 1000)
+          }  
+        }     
      }, 1000)
     }
   }
