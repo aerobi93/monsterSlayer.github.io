@@ -1,0 +1,5 @@
+@mixin shadow ($color1, $color2) {
+ color: $color1;
+ text-shadow: $color2 2px 2px;
+ font-weight: bolder;
+}

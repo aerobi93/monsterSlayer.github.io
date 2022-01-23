@@ -1,0 +1,104 @@
+@use 'src/styles/vars';
+@use 'src/styles/mixin';
+
+.allDivPlayer {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin-top: vars.$margin * 0.5;
+}
+.divPlayer{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 25%;
+  margin: 0 vars.$margin * 2; 
+  position: relative;  
+  &-image { 
+    position: relative;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
+  &-star {
+    height: 14rem;
+    width: 10rem;
+    color: yellow;
+    font-size: vars.$fontSize * 1.75;
+    position: relative;
+    left: 4rem;
+    top: 12rem;
+    display: none;
+  }
+  &-fire {
+    width: 25%;
+    height: 10px;
+    position: relative;
+    top:-26rem;
+    display: none;
+    &--player {
+      left: 12rem;
+      -moz-transform:    scaleX(-1); 
+      -o-transform:      scaleX(-1); 
+      -webkit-transform: scaleX(-1); 
+      transform:         scaleX(-1); 
+    }
+    &--monster {
+      left: -2rem
+    }
+  }
+  &-playerName {
+    @include mixin.shadow(red, black);
+    margin: vars.$margin * 0.5 0;
+    font-size: vars.$fontSize * 4;
+    text-transform: capitalize;
+    text-align: center;
+    font-family: vars.$tangerine;
+  }
+  &-message {
+    @include mixin.shadow(cyan, black);
+    font-size: vars.$fontSize * 1.5 ;
+    margin-bottom: vars.$margin * 0.5;
+    
+  }
+  &-pv, &-mana {
+    height: 2rem;
+    width: 100%;
+    margin-bottom: vars.$margin;
+    -webkit-appearance: none;
+
+    &::-webkit-progress-bar {
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 5px black
+    }
+    &::-webkit-progress-value {
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 5px black
+    }
+  }
+  &-pv {
+    &::-webkit-progress-bar {
+      background-color: red;
+    }
+    &::-webkit-progress-value {
+      background-color:  rgb(0, 132, 255);
+    } 
+  }
+  &-mana {
+    &::-webkit-progress-bar {
+      background-color: red;
+    }
+    &::-webkit-progress-value {
+      background-color: rgb(95, 255, 47);
+    } 
+  }
+  &-manaText, &-pvText {
+    @include mixin.shadow(white, blue);
+    position: relative;
+    top : -4rem;
+    text-align: center;
+    font-size: vars.$fontSize * 2;
+    font-family: vars.$lato;
+  }
+}

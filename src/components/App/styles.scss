@@ -1,0 +1,9 @@
+@use 'src/styles/vars';
+
+.container {
+    background-color: blue;
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+    font-family: vars.$lato;
+}

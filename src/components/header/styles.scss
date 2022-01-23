@@ -1,0 +1,19 @@
+@use 'src/styles/vars';
+@use 'src/styles/mixin';
+
+.header {
+    text-transform: capitalize;
+    padding-top: vars.$padding;
+   &-title {
+       @include mixin.shadow(#000000, red);
+       font-size: vars.$fontSize * 5;
+       font-family: vars.$tangerine;
+       text-align: center;
+   }
+   &-level {
+       @include mixin.shadow(white, black);
+       font-size: vars.$fontSize * 2;
+       text-align: center;
+   } 
+}
+

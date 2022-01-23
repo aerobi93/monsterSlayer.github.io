@@ -1,0 +1,37 @@
+@use 'src/styles/vars';
+@use 'src/styles/mixin';
+
+.allDivButton {
+  display: flex;
+  justify-content: center;
+  
+  &-button {
+    @include mixin.shadow(white, blue);
+    font-size: vars.$fontSize *1.5;
+    font-family: vars.$lato;
+    text-transform: capitalize;
+    padding: vars.$padding * 0.25 vars.$padding * 0.5; 
+    border-radius: 15px;
+    margin: vars.$margin * 0.5;
+    background-color: transparent;
+    border: none;
+    
+    &--begin {
+      background-color: yellow;
+      margin-top: vars.$margin * 2;
+    }
+    &--attack {
+      background-color: red;
+    }
+    &--magicFire {
+      background-color: orangered;
+    }
+    &--heal {
+      background-color: yellowgreen;
+    }
+    &--giveUp {
+      background-color: black;
+    }
+  }
+ 
+}
