@@ -1,17 +1,18 @@
-import { SET_GAMER_NAME, BEGIN, END, HEAL, ATTACK, CHANGE_LEVEL, REGAIN_MANA, CHANGE_DISPLAY_ANIMATION } from '../action'
+import { SET_GAMER_NAME, BEGIN, END, HEAL, ATTACK, CHANGE_LEVEL, REGAIN_MANA, CHANGE_DISPLAY_ANIMATION, REPORT_BATTLE } from '../action'
 import { monsterArray, round } from '../utils'
 
 const initialState = {
   level : 0,
   beeingPlaying : false,
   displayAnimation:false,
-  actualMonster : monsterArray[0],
-  monsterName:  monsterArray[0].name,
-  monsterPvMax: monsterArray[0].pvMax,
+  dommage:'',
+  //monster
+  currentMonster : monsterArray[0],
+  monsterName:  '',
   monsterPv: '',
-  monsterManaMax:  monsterArray[0].manaMax,
   monsterMana:'',
   messageMonster: '',
+  //player
   gamerName:'',
   playerPvMax: 100,
   playerPv: '',
@@ -34,8 +35,9 @@ const reducer = (state:any = initialState, action:any = {})  => {
        displayAnimation:false,
        playerPv: state.playerPvMax,
        playerMana: state.playerManaMax,
-       monsterPv : state.monsterPvMax,
-       monsterMana: state.monsterManaMax,
+       monsterName: state.currentMonster.name,
+       monsterPv : state.currentMonster.pvMax,
+       monsterMana: state.currentMonster.manaMax,
      }
      case CHANGE_DISPLAY_ANIMATION: 
       return {
@@ -45,10 +47,10 @@ const reducer = (state:any = initialState, action:any = {})  => {
      case REGAIN_MANA: 
       return {
         ...state,
-        monsterMana :state.monsterMana +5 < state.monsterManaMax ? state.monsterMana + 5 : state.monsterManaMax,
+        monsterMana :state.monsterMana +5 < state.monsterManaMax ? state.monsterMana + 5 : state.currentMonster.manaMax,
         playerMana: state.playerMana + 5 < state.playerManaMax ?  state.playerMana + 5 : state.playerManaMax
       } 
-     case HEAL: {
+    case HEAL: {
        if (action.value == 'player') {
        return {
         ...state,
@@ -61,40 +63,47 @@ const reducer = (state:any = initialState, action:any = {})  => {
           'vous avez recuperez' + Math.floor(15 * ( state.lvUpPlayer) /100) + 'pv'
         }
      }
-     if (action.value == 'monster') {
-      return {
-        ...state,
-        monsterMana : state.monsterMana - 10,
-        monsterPv: state.monsterPv + state.actualMonster.heal >= state.monsterPvMax ?
-        state.monsterPvMax: 
-        state.monsterPv + state.actualMonster.heal,
-        messageMonster: state.monsterPv + state.actualMonster.heal >= state.monsterPvMax ? 
-        'le monstre  a recuperer' + (state.monsterPvMax  - state.monsterPv) + 'pv' : 
-        'le monstre  a recuperer' + state.actualMonster.heal + 'pv'
-      }
-    }
-    }
-      
-      case ATTACK: {
-        
-        if( action.attacker == 'player') {
+        if (action.value == 'monster') {
           return {
             ...state,
-            playerMana : action.typeAttack == 'special' ? state.playerMana - 20 : state.playerMana ,
-            monsterPv: state.monsterPv - (( action.typeAttack == 'normal' ? round(3, 10) : round(10, 15) ) * (state.lvUpPlayer ) / 100) <= 0 ?
-              0 :
-              state.monsterPv - (( action.typeAttack == 'normal' ? round(3, 10) : round(10, 15) ) * (state.lvUpPlayer ) / 100),
-            messageMonster: state.gamerName + ' vous a infliger ' + (( action.typeAttack == 'normal' ? round(3, 10) : round(10, 15) ) * (state.lvUpPlayer ) / 100) + ' de dommage'
+            monsterMana : state.monsterMana - 10,
+            monsterPv: state.monsterPv + state.actualMonster.heal >= state.monsterPvMax ?
+            state.monsterPvMax: 
+            state.monsterPv + state.actualMonster.heal,
+            messageMonster: state.monsterPv + state.actualMonster.heal >= state.monsterPvMax ? 
+            'le monstre  a recuperer' + (state.monsterPvMax  - state.monsterPv) + 'pv' : 
+            'le monstre  a recuperer' + state.actualMonster.heal + 'pv'
           }
         }
-        if( action.attacker == 'monster') {
+      }
+      case  REPORT_BATTLE: 
+        return {
+          ...state,
+          [action.forWho]: action.forWho == 'monster' ?
+            state.gamerName + ' a infliger ' + state.dommage + ' de degat' :
+            state.monsterName + ' vous a infliger ' + state.dommage + ' de degat'
+
+        }
+      case ATTACK: {
+        if (action.attacker == "player") {
+          let dommageInflige = Math.floor( round(3 , 5) * (state.lvUpPlayer) / 100)
           return {
             ...state,
-            monsterMana : action.typeAttack == 'special' ? state.monsterMana - 20 : state.monsterMana,
-            playerPv: state.playerPv - (action.typeAttack== 'normal' ? state.actualMonster.dommage : state.actualMonster.special) <= 0 ?
-              0 :
-              state.playerPv - (action.typeAttack== 'normal' ? state.actualMonster.dommage : state.actualMonster.special),
-            messagePlayer: state.monsterName + ' vous a infliger ' + (action.typeAttack== 'normal' ? state.actualMonster.dommage : state.actualMonster.special) + ' de dommage'
+            dommage: dommageInflige,
+            monsterPv : state.monsterPv - dommageInflige > 0 ? 
+            state.monsterPv - dommageInflige :
+            0
+          }
+        }
+
+        if (action.attacker == "monster") {
+          let dommageInflige = round(state.currentMonster.dommage_min, state.currentMonster.dommage_max)
+          return {
+            ...state,
+            dommage: dommageInflige,
+            playerPv : state.playerPv - dommageInflige > 0 ? 
+            state.playerPv - dommageInflige :
+            0
           }
         }
       }
@@ -122,7 +131,7 @@ const reducer = (state:any = initialState, action:any = {})  => {
           monsterName: monsterArray[0],
           beeingPlaying : false,
           displayAnimation:false,
-          monsterPvMax: 100,
+          monsterPvMax: '',
           monsterPv: 100, 
           playerPvMax: 100,
           playerPv: 100,

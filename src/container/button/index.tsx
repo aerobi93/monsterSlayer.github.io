@@ -2,10 +2,14 @@ import { connect } from "react-redux";
 import store from '../../store'
 import Button from "../../components/button";
 import { round, moving } from "../../utils";
-import { regainMana, begin, end, setGamerName, attack, heal, changeDisplayAnimation} from '../../action'
-import { displayPartsToString } from "typescript";
+import { regainMana, begin, end, setGamerName, attack, heal, fireBall, fireCone, ice, reportBattle, changeDisplayAnimation} from '../../action'
+
+let starPlayer: HTMLElement | null = document.getElementById('star-'+store.getState().gamerName)
+let starMonster: HTMLElement | null = document.getElementById('star-'+store.getState().monsterName)
 const mapStateToProps = (state : any) => ({
   displayAnimation : state.displayAnimation,
+  monsterPv: state.monsterPv,
+  playerPv: state.playerPv,
 })
 const mapDispatchToProps = (dispatch: any) => ({ 
   
@@ -29,117 +33,36 @@ const mapDispatchToProps = (dispatch: any) => ({
     }
     else alert('une erreur est survenue')
   },
-  end: () => {
-      dispatch(end())
-  },
-  attack: (value: string, attacker:string, dommage:number) => {
-    const playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
-    let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
-    let firePlayer:HTMLElement | null = document.getElementById('fire-'+store.getState().gamerName)
-    let fireMonster:HTMLElement | null = document.getElementById('fire-'+store.getState().monsterName)
-    let starMonster: HTMLElement | null = document.getElementById('star-'+store.getState().monsterName)
+  attack: () => {
+    let playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
     dispatch(changeDisplayAnimation())
-    if (value== 'magicFire'  && store.getState().playerMana -20 < 0) {
-      alert("vos n avez plus assez de mana votre sort a echouer")  
-    } 
-    else if ( value== 'magicFire' && store.getState().playerMana -20 >= 0)  {
-      moving(firePlayer!, monsterDiv!, 'fire', 1000, 'player' )
-      setTimeout(() => {
-         dispatch(attack('player','special')) 
-      }, 1000)
-     }
-    else if (value== 'attack') {
-      moving(playerDiv!, monsterDiv!,  'draw', 1000, 'player')
-      setTimeout(() => {
-         dispatch(attack('player','normal')) 
-      }, 1000)
-    } 
+    moving(playerDiv!, 'draw', 1000, 'player')
     setTimeout(()=> {
-      if (store.getState().monsterPv > 0) {
-        let random: number = round(1, 3)
-        if (random == 1) {
-          moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
-          setTimeout(() => {
-            dispatch(attack('monster', 'normal')) 
-            dispatch(changeDisplayAnimation())
-          }, 1000)
-        }
-        else if (random == 2 && store.getState().monsterMana - 10 >= 0) {
-          moving(starMonster!, playerDiv!,  'healing', 1000, 'monster')
-          setTimeout(() => {
-            dispatch(heal('monster'))
-            dispatch(changeDisplayAnimation())
-          }, 1000);
-        }
-        else if (random == 3 && store.getState().monsterMana - 20 >= 0) {
-          moving(fireMonster!, playerDiv!, 'fire', 1000, 'monster' )
-          setTimeout(() => {
-            dispatch(changeDisplayAnimation())
-            dispatch(attack('monster', 'special'))
-          }, 1000)
-        }
-        else {
-          moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
-          setTimeout(() => {
-            dispatch(attack('monster', 'normal')) 
-            dispatch(changeDisplayAnimation())
-          }, 1000)
-        }
-      }    
-   }, 1000)
+      dispatch(reportBattle('messageMonster'))
+      dispatch(attack('player'))
+    },1000)
   },
 
-  heal: () => {
-    const playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
+  fireBall: () => {console.log('fireball')
+    let fireBallPlayer:HTMLElement | null = document.getElementById('fire-'+store.getState().gamerName)
+    dispatch(changeDisplayAnimation())
+    moving(fireBallPlayer!, 'fireBall', 1000, 'player')
+  },
+
+  monsterCounter: () => {
+    
     let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
-    let fireMonster:HTMLElement | null = document.getElementById('fire-'+store.getState().monsterName)
-    let starPlayer: HTMLElement | null = document.getElementById('star-'+store.getState().gamerName)
-    let starMonster: HTMLElement | null = document.getElementById('star-'+store.getState().monsterName)
-  
-    if (store.getState().playerMana - 10 < 0) {
-      alert("vos n avez plus assez de mana votre sort a echouer")
-    }
-    else if ((store.getState().playerMana - 10 > 0 ) ){
-      dispatch(changeDisplayAnimation())
-      moving(starPlayer!, playerDiv!,  'healing', 1000, 'player')
-       setTimeout(() => {
-        dispatch(heal('player'))
-       }, 1000);
-       
-       setTimeout(()=> {
-        if (store.getState().monsterPv > 0) {
-          let random: number = round(1, 3)
-          if (random == 1) {
-            moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
-            setTimeout(() => {
-              dispatch(attack('monster', 'normal')) 
-              dispatch(changeDisplayAnimation())
-            }, 1000)
-          }
-          else if (random == 2 && store.getState().monsterMana - 10 >= 0) {
-            moving(starMonster!, playerDiv!,  'healing', 1000, 'monster')
-            setTimeout(() => {
-              dispatch(heal('monster'))
-              dispatch(changeDisplayAnimation())
-            }, 1000);
-          }
-          else if (random == 3 && store.getState().monsterMana - 20 >= 0) {
-            moving(fireMonster!, playerDiv!, 'fire', 1000, 'monster' )
-            setTimeout(() => {
-              dispatch(changeDisplayAnimation())
-              dispatch(attack('monster', 'special'))
-            }, 1000)
-          }
-          else {
-            moving(monsterDiv!, playerDiv!,  'draw', 1000, 'monster')
-            setTimeout(() => {
-              dispatch(attack('monster', 'normal')) 
-              dispatch(changeDisplayAnimation())
-            }, 1000)
-          }  
-        }     
-     }, 1000)
-    }
+    dispatch(changeDisplayAnimation())
+    moving(monsterDiv!, 'draw', 1000, 'monster')
+    setTimeout(()=> {
+      dispatch(reportBattle('messagePlayer'))
+      dispatch(attack('monster'))
+    },1000)
+  },
+
+
+  end: () => {
+      dispatch(end())
   }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Button)

@@ -6,13 +6,13 @@ interface allDivPlayer {
     beeingPlaying: boolean
 }
 
-const AllDivPlayer = ({ beeingPlaying}: allDivPlayer) => (
+const AllDivButton = ({ beeingPlaying}: allDivPlayer) => (
     <div className='allDivButton'>
     {!beeingPlaying && <Button buttonName={'begin'} buttonClass={'allDivButton'} />}
     {beeingPlaying && <Button buttonName={'attack'} buttonClass={'allDivButton'} />}
-    {beeingPlaying && <Button buttonName={'magicFire'} buttonClass={'allDivButton'} />}
+    {beeingPlaying && <Button buttonName={'fireBall'} buttonClass={'allDivButton'} />}
     {beeingPlaying && <Button buttonName={'heal'} buttonClass={'allDivButton'} />}
     {beeingPlaying && <Button buttonName={'giveUp'} buttonClass={'allDivButton'} />}
     </div>
 )
-export default AllDivPlayer
+export default AllDivButton

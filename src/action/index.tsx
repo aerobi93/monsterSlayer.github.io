@@ -3,9 +3,13 @@ export const BEGIN = 'BEGIN';
 export const SET_GAMER_NAME = 'SET_GAMER_NAME'
 export const END = 'END';
 export const ATTACK = 'ATTACK'
+export const FIRE_BALL = 'FIRE_BALL'
+export const FIRE_CONE = 'FIRE_CONE'
+export const ICE = 'ICE' 
 export const HEAL = 'HEAL'
 export const CHANGE_LEVEL = 'CHANGE_LEVEL'
 export const CHANGE_DISPLAY_ANIMATION = 'CHANGE_DISPLAY_ANIMATION'
+export const REPORT_BATTLE = 'REPORT_BATTLE'
 
 export const regainMana = () => ({
   type: REGAIN_MANA
@@ -24,10 +28,24 @@ export const end = () => ({
   type: END
   });
 
-export const attack = (attacker:string, typeAttack: string) => ({
+export const attack = (attacker:string) => ({
   type: ATTACK,
   attacker,
-  typeAttack,
+})
+
+export const fireBall = (attacker:string) => ({
+  type: FIRE_BALL,
+  attacker,
+})
+
+export const fireCone = (attacker:string) => ({
+  type: FIRE_CONE,
+  attacker,
+})
+
+export const ice = (attacker:string) => ({
+  type: ICE,
+  attacker,
 })
 
 export const heal = (value:string) => ({
@@ -41,4 +59,9 @@ export const changeLevel = () => ({
 
 export const changeDisplayAnimation = () => ({
   type : CHANGE_DISPLAY_ANIMATION
+})
+
+export const reportBattle = (forWho:string) => ({
+  type : REPORT_BATTLE,
+  forWho,
 })

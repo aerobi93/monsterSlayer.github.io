@@ -3,11 +3,11 @@ import DivPlayer from "../../components/allDivPlayer/divPlayer";
 
 const mapStateToProps = (state:any) => ({
     gamerName : state.gamerName,
-    monsterPvMax: state.monsterPvMax,
+    monsterPvMax: state.currentMonster.pvMax,
     monsterPv: state.monsterPv, 
     playerPvMax: state.playerPvMax,
     playerPv : state.playerPv,
-    monsterManaMax: state.monsterManaMax,
+    monsterManaMax: state.currentMonster.manaMax,
     monsterMana: state.monsterMana, 
     playerManaMax: state. playerManaMax,
     playerMana: state.playerMana,

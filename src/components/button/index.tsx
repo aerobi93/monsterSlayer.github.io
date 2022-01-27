@@ -1,44 +1,65 @@
-import react from 'react'
+import React from 'react';
+
 interface button {
   buttonName: string,
   buttonClass: string, 
   displayAnimation?: boolean,
+  monsterPv:number,
+  playerPv: number,
   regainMana : any
   begin?: any, 
   end? : any,
-  attack?: any
-  heal? : any
+  attack?: any,
+  fireBall?: any, 
+  fireCone?: any,
+  ice?: any, 
+  heal? : any,
+  monsterCounter?:any,
 }
 const Button = ({
   buttonName,
   buttonClass, 
   displayAnimation,
+  monsterPv,
+  playerPv,
   regainMana,
   begin,
   end,
   attack,
-  heal
+  fireBall,
+  fireCone,
+  ice,
+  heal,
+  monsterCounter,
 }: button) => {
   const handlerClick = (evt: any) => {
+    if (!displayAnimation && monsterPv > 0 && playerPv > 0) {
+      setTimeout(() => {
+        regainMana()
+     },1000 * 1.5)
+    }
+
+    if (evt.target.name !== 'begin' && evt.target.name !== 'giveUp') {
+      setTimeout(() => {
+        monsterCounter()
+      },1000)
+    }
     if (evt.target.name == 'begin') {
       begin()
     }
     else if (evt.target.name == 'giveUp') {
       end()
     }
-    if (!displayAnimation) {
-      setTimeout(() => {
-        regainMana()
-     },1000 * 1.5)
-     
-      if (evt.target.name == 'attack' || (evt.target.name == 'magicFire')) {
-      attack(evt.target.name)
-      }
-      else if (evt.target.name == 'heal') {
+    else if (evt.target.name == 'heal') {
       heal()
-      }
     }
-    
+    else if (evt.target.name == 'attack') {
+      attack()
+    }
+    else if (evt.target.name == 'fireBall') {
+      fireBall()
+    }
+
   }  
   return (
     <button 

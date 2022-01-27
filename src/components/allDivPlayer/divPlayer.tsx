@@ -51,8 +51,12 @@ const DivPlayer = ({
       <progress className='divPlayer-pv'max={pvMax} value={pv} />
       <span className='divPlayer-pvText'>{pv} pv</span>
       <progress className='divPlayer-mana'max={manaMax} value={mana} />
-      <span className='divPlayer-manaText'>{mana} pm</span>
-      <img className={'divPlayer-fire divPlayer-fire--'+player}  src={'fire.png'} id={'fire-'+namePersonna}/>
+      <span className='divPlayer-manaText'>{mana} pm</span> 
+      <div className = 'divPlayer-fireBallContainer'>
+     
+        <img className={'divPlayer-fireBall divPlayer-fireBall--'+player}  src={'fire.png'} id={'fireBall-'+namePersonna}/>
+      </div>
+    
       </figure>
   )
 }
