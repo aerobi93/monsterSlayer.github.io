@@ -96,11 +96,27 @@ export const monsterArray = [
   },
 ]
 export const moving = (elementToMove: HTMLElement, functionName : any , delai: number, whoAction: string ) => {
+  let playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
+  let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
+  let playerred: HTMLElement | null = document.getElementById(`red-${store.getState().gamerName}`)
+  let monsterred: HTMLElement | null = document.getElementById(`red-${store.getState().monsterName}`)
+  
   let start = Date.now();
   let timer = setInterval(function() {
     let timePassed = Date.now() - start;  
     if (timePassed >=  delai) {
       clearInterval(timer);
+      setTimeout(()=> {
+        let whoIsred  = whoAction == 'player' ? monsterred : playerred
+        let whoIsTouch  = whoAction == 'player' ? monsterDiv : playerDiv
+        whoIsTouch!.style.display ='none'
+        whoIsred!.style.display = 'inherit'
+        setTimeout(()=> {
+          whoIsTouch!.style.display ='inherit'
+          whoIsred!.style.display = 'none'
+        },50)
+      }, 50)
+     
     }
     if (functionName == "draw") {
       draw(timePassed, delai, elementToMove, whoAction )
@@ -131,16 +147,33 @@ function draw(timePassed:number, delai:number,  elementToMove:HTMLElement, whoAc
 function fireBall(timePassed:number, delai:number,  elementToMove:HTMLElement, whoAction:string) {
   let playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
   let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
-     if (playerDiv!.offsetTop > -30) {
-      console.log(playerDiv!.offsetLeft)
-      playerDiv!.style.bottom = timePassed  + 'px'  
-      playerDiv!.style.right = timePassed   + 'px' 
+  if (timePassed >= delai) {
+      setTimeout(()=> {
+        playerDiv!.style.right= 'inherit'
+        playerDiv!.style.bottom= 'inherit'
+      elementToMove.style.left = 'inherit'
+      elementToMove.style.visibility='hidden'
+      elementToMove.style.height= '0px'
+      },51)
+    }
+   console.log(elementToMove.style.height)
+    if (timePassed < 100){
+      playerDiv!.style.bottom = timePassed / 2   + 'px'  
+      playerDiv!.style.right = timePassed / 1.25   + 'px' 
       playerDiv!.style.transform= `rotate(${360 - timePassed / 30})`
      }
-     else if (playerDiv!.clientLeft > 40) {
-      console.log(playerDiv!.clientLeft)
-      playerDiv!.style.top = timePassed  + 'px'  
-      playerDiv!.style.right = timePassed / 2.5 + 'px' 
-      playerDiv!.style.transform= `rotate(${ timePassed / 30})`
+    else if (timePassed > 100 && timePassed < 200){
+      playerDiv!.style.bottom = -timePassed / 7  + 'px'  
+      playerDiv!.style.right = timePassed / 1.25  + 'px' 
+      playerDiv!.style.transform= `rotate(${timePassed / 30})`
      }
+    if (timePassed > 300) {
+      elementToMove.style.visibility='visible'
+      if (elementToMove.clientHeight <= 70) {
+          elementToMove.style.height = timePassed / 10 + 'px' 
+      }
+      else if (elementToMove.clientHeight > 70) {
+        elementToMove.style.left = timePassed  / 2 + 'px'
+      }
+    }
 }

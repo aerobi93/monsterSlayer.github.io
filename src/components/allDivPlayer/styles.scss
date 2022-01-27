@@ -8,6 +8,8 @@
   margin-top: vars.$margin * 0.5;
 }
 .divPlayer{
+  position: relative;
+  top: -2rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -19,6 +21,15 @@
     width: 50%;
     margin-left: auto;
     margin-right: auto;
+  }
+  &-red {
+    margin-left: auto;
+    margin-right: auto;
+    width: 5rem;
+    height: 7rem;
+    padding: 1px;
+    background-color: red;
+    display: none;
   }
   &-star {
     height: 14rem;
@@ -40,9 +51,8 @@
     height: 10px;
     position: relative;
     top:-26rem;
-    display: none;
+    visibility: hidden;
     &--player {
-      left: 12rem;
       -moz-transform:    scaleX(-1); 
       -o-transform:      scaleX(-1); 
       -webkit-transform: scaleX(-1); 
@@ -64,7 +74,7 @@
     @include mixin.shadow(cyan, black);
     height: 2rem;
     font-size: vars.$fontSize * 1.5 ;
-    margin-bottom: vars.$margin * 0.5;
+    margin-bottom: vars.$margin * 1;
     
   }
   &-pv, &-mana {

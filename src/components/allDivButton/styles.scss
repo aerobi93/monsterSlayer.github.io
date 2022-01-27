@@ -4,6 +4,8 @@
 .allDivButton {
   display: flex;
   justify-content: center;
+  position: relative;
+  bottom: 8rem;
   
   &-button {
     @include mixin.shadow(white, blue);
@@ -18,7 +20,7 @@
     
     &--begin {
       background-color: yellow;
-      margin-top: vars.$margin * 2;
+      margin-top: vars.$margin * 10;
     }
     &--attack {
       background-color: red;

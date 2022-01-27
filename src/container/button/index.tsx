@@ -43,14 +43,13 @@ const mapDispatchToProps = (dispatch: any) => ({
     },1000)
   },
 
-  fireBall: () => {console.log('fireball')
-    let fireBallPlayer:HTMLElement | null = document.getElementById('fire-'+store.getState().gamerName)
+  fireBall: () => {
+    let fireBallPlayer:HTMLElement | null = document.getElementById('fireBall-'+store.getState().gamerName)
     dispatch(changeDisplayAnimation())
     moving(fireBallPlayer!, 'fireBall', 1000, 'player')
   },
 
   monsterCounter: () => {
-    
     let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
     dispatch(changeDisplayAnimation())
     moving(monsterDiv!, 'draw', 1000, 'monster')
