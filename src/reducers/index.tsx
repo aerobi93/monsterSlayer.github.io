@@ -76,14 +76,15 @@ const reducer = (state:any = initialState, action:any = {})  => {
           }
         }
       }
-      case  REPORT_BATTLE: 
+      case  REPORT_BATTLE: {
+        console.log(action.forWho,'test')
         return {
           ...state,
-          [action.forWho]: action.forWho == 'monster' ?
+          [action.forWho]: action.forWho == 'messageMonster' ?
             state.gamerName + ' a infliger ' + state.dommage + ' de degat' :
             state.monsterName + ' vous a infliger ' + state.dommage + ' de degat'
 
-        }
+        }}
       case ATTACK: {
         if (action.attacker == "player") {
           let dommageInflige = Math.floor( round(3 , 5) * (state.lvUpPlayer) / 100)
@@ -111,13 +112,12 @@ const reducer = (state:any = initialState, action:any = {})  => {
           ...state,
           [action.value] : +[state[action.value]] - action.number
         }
-      case FIRE_CONE :{
-        console.log('state')
+      case FIRE_CONE :
         return {
           ...state,
-          degat : state.degat + (state.lvUpPlayer / 100),
+          dommage : +state.dommage + (state.lvUpPlayer / 100),
           monsterPv: state.monsterPv - (  state.lvUpPlayer / 100)
-        }}
+        }
       
       case FIRE_BALL: {
         if (action.attacker == "player") {

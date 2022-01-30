@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ba898bcf.css",
+    "main.js": "/static/js/main.745d4c33.js",
+    "static/media/ps5.png": "/static/media/ps5.a8ce5b1a05af7a21756f.png",
+    "static/media/galaxy7.jpg": "/static/media/galaxy7.4b9fe0c8a2388b8704df.jpg",
+    "index.html": "/index.html",
+    "main.ba898bcf.css.map": "/static/css/main.ba898bcf.css.map",
+    "main.745d4c33.js.map": "/static/js/main.745d4c33.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ba898bcf.css",
+    "static/js/main.745d4c33.js"
+  ]
+}

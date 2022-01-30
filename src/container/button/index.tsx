@@ -38,8 +38,8 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
     dispatch(changeDisplayAnimation())
     moving(playerDiv!, 'draw', 1000, 'player')
     setTimeout(()=> {
-      dispatch(reportBattle('messageMonster'))
       dispatch(attack('player'))
+      dispatch(reportBattle('messageMonster'))
     },1000)
   },
 
@@ -56,8 +56,8 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
       moving(fireBallPlayer!, 'fireBall', 1000, 'player')
       dispatch(lostMana('playerMana', 20))
       setTimeout(() => {
-        dispatch(reportBattle('messageMonster'))
         dispatch(fireBall('player'))
+        dispatch(reportBattle('messageMonster'))
       }, 1000);  
     }
   },
@@ -78,7 +78,7 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
       clearInterval(timer)
       dispatch(reportBattle('messageMonster'))
       fireBallPlayer!.style.transform='scaleX(-1)'
-      fireBallPlayer!.style.visibility='visible'
+      fireBallPlayer!.style.visibility='hidden'
       fireBallPlayer!.style.left='10rem'
       fireBallPlayer!.style.height ='10px'
       fireBallPlayer!.style.width ='20%'
@@ -87,6 +87,7 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
     let button = document.querySelector('.allDivButton-button--fireCone')
     button?.addEventListener('mouseup', endtimer) 
     dispatch(changeDisplayAnimation()) 
+    fireBallPlayer!.style.visibility='visible'
     fireBallPlayer!.style.transform='rotate(0deg)'
     fireBallPlayer!.style.left='12rem'
     let timer = setInterval (() => {
@@ -99,7 +100,7 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
           fireBallPlayer!.style.width = interval / 5 + '%'
          }
       if (interval % 3 == 0 && parseInt(fireBallPlayer!.style.width) >= 170) {
-        if (store.getState().playerMana > 0) {
+        if (store.getState().playerMana > 0 && store.getState().monsterPv >= 0) {
           dispatch(lostMana('playerMana', 1))
           dispatch(fireCone())
         }
@@ -119,8 +120,8 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
     if (random == 1) {
       moving(monsterDiv!, 'draw', 1000, 'monster') 
         setTimeout(()=> {
+          dispatch(attack('monster'))
         dispatch(reportBattle('messagePlayer'))
-        dispatch(attack('monster'))
       },1000)
     }
     else if (random == 2 && (store.getState().monsterMana - 20) > 0 ) {
@@ -128,8 +129,9 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
       moving(fireBallMonster!, 'fireBall', 1000, 'monster')  
       dispatch(lostMana('monsterMana', 20))
       setTimeout(()=> {
-        dispatch(reportBattle('messagePlayer'))
         dispatch(fireBall('monster'))
+        dispatch(reportBattle('messagePlayer'))
+      
       }, 1000) 
     }
     else if (random == 3 && (store.getState().monsterMana - 10) > 0 ) {
@@ -143,8 +145,8 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
     else {
       moving(monsterDiv!, 'draw', 1000, 'monster')
       setTimeout(()=> {
-        dispatch(reportBattle('messagePlayer'))
         dispatch(attack('monster'))
+        dispatch(reportBattle('messagePlayer'))
       },1000)
     }
   },

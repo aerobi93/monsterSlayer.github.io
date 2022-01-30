@@ -33,7 +33,9 @@ const Button = ({
   monsterCounter,
 }: button) => {
   const handlerMouseDown= () => {
-   fireCone()
+    if(!displayAnimation) {
+       fireCone()
+    }
   }
   const handlerClick = (evt: any, value?: boolean) => {
     if (!displayAnimation) {

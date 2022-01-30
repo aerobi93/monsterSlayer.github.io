@@ -20,7 +20,7 @@ const App = ({ beeingPlaying, monsterPv, playerPv, changeLevel, end, level }: ap
   if (beeingPlaying) {
     let flexButton: HTMLElement | null = document.querySelector('.allDivButton')
     if (flexButton) {
-       flexButton.style.top = '-28rem'
+       flexButton.style.top = '-30rem'
     }
    
   }
