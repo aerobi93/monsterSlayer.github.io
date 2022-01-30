@@ -107,8 +107,11 @@ export const moving = (elementToMove: HTMLElement, functionName : any , delai: n
     if (timePassed >=  delai) {
       clearInterval(timer);
       setTimeout(()=> {
+        if (functionName =='heal') {
+          elementToMove.style.visibility='hidden'
+        }
         let whoIsred  = whoAction == 'player' ? monsterred : playerred
-        let whoIsTouch  = whoAction == 'player' ? monsterDiv : playerDiv
+        let whoIsTouch  = whoAction == 'player' ? monsterDiv : playerDiv 
         whoIsTouch!.style.display ='none'
         whoIsred!.style.display = 'inherit'
         setTimeout(()=> {
@@ -122,10 +125,13 @@ export const moving = (elementToMove: HTMLElement, functionName : any , delai: n
       draw(timePassed, delai, elementToMove, whoAction )
     }
     if (functionName == "fireBall") {
+      
       fireBall(timePassed, delai, elementToMove, whoAction )
-    
     }
-
+    if (functionName == "heal") {
+      
+      heal(timePassed, delai, elementToMove, whoAction )
+    }
   }, 20);
 }
 
@@ -137,10 +143,10 @@ function draw(timePassed:number, delai:number,  elementToMove:HTMLElement, whoAc
     }, 1)
   }
   if ( whoAction == 'player') {
-    elementToMove.style.left = timePassed / 2.5 + 'px'
+    elementToMove.style.left = timePassed / 1.5 + 'px'
   }
   if (whoAction = 'monster') {
-    elementToMove.style.right = timePassed / 2.5 + 'px'
+    elementToMove.style.right = timePassed / 1.5 + 'px'
   }
 }
 
@@ -154,7 +160,7 @@ function fireBall(timePassed:number, delai:number,  elementToMove:HTMLElement, w
     setTimeout(() => {
       elementToMove.style.height= "400px"
       whoAction == 'player' ?  imageToMove!.style.right = 'inherit' : imageToMove!.style.left = 'inherit';
-      whoAction == 'player' ?  elementToMove!.style.left = '2rem' : elementToMove!.style.right = '-9rem';
+      whoAction == 'player' ?  elementToMove!.style.left = '10rem' : elementToMove!.style.right = '-14rem';
       imageToMove!.style.bottom= 'inherit'
       elementToMove.style.height= '0px'
     }, 1)
@@ -189,11 +195,16 @@ function fireBall(timePassed:number, delai:number,  elementToMove:HTMLElement, w
     }
     else if (elementToMove.clientHeight > 70) {
       if (whoAction == 'player') {
-          elementToMove.style.left = 3 + (timePassed  / 30) + 'rem'
+          elementToMove.style.left = 10 + (timePassed  / 25) + 'rem'
       }
       else if (whoAction == 'monster') {
-        elementToMove.style.right= -9 + (timePassed  / 30) + 'rem'
+        elementToMove.style.right= -14 + (timePassed  / 25) + 'rem'
       } 
     }
   }
+}
+
+function heal(timePassed:number, delai:number,  elementToMove:HTMLElement, whoAction:string){
+  elementToMove.style.visibility='visible'
+  elementToMove.style.transform = `rotate(${timePassed }deg)`
 }

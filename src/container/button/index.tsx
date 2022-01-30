@@ -4,8 +4,7 @@ import Button from "../../components/button";
 import { round, moving } from "../../utils";
 import { regainMana, begin, end, setGamerName, attack, heal, fireBall, fireCone, ice, lostMana, reportBattle, changeDisplayAnimation} from '../../action'
 
-let starPlayer: HTMLElement | null = document.getElementById('star-'+store.getState().gamerName)
-let starMonster: HTMLElement | null = document.getElementById('star-'+store.getState().monsterName)
+
 const mapStateToProps = (state : any) => ({
   displayAnimation : state.displayAnimation,
   monsterPv: state.monsterPv,
@@ -33,8 +32,8 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
     }
     else alert('une erreur est survenue')
   },
+  
   attack: () => {
-    console.log('attack')
     let playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
     dispatch(changeDisplayAnimation())
     moving(playerDiv!, 'draw', 1000, 'player')
@@ -57,32 +56,63 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
       moving(fireBallPlayer!, 'fireBall', 1000, 'player')
       dispatch(lostMana('playerMana', 20))
       setTimeout(() => {
-          dispatch(fireBall('player'))
+        dispatch(reportBattle('messageMonster'))
+        dispatch(fireBall('player'))
       }, 1000);  
     }
   },
-  fireCone: (value?: boolean) => {
+  heal : () => {
+    let starPlayer: HTMLElement | null = document.getElementById('star-'+store.getState().gamerName)
+    dispatch(changeDisplayAnimation())
+    moving(starPlayer!, 'heal', 1000, 'player')
+    dispatch(lostMana('playerMana', 10))
+    setTimeout(() => {
+        dispatch(heal('player'))
+    }, 1000);  
+  }, 
+
+  fireCone : () => {
+    let date = Date.now();
     let fireBallPlayer:HTMLElement | null = document.getElementById('fireBall-'+store.getState().gamerName)
-    fireBallPlayer!.style.visibility='visible'
-    fireBallPlayer!.style.left='19rem'
-    fireBallPlayer!.style.top='3em'
-    let start = Date.now();
-    let timer = setInterval(function() {
-      let timePassed = Date.now() - start; 
-      if (value) {
-        console.log("ok")
-        clearInterval(timer);
+    let endtimer  = function () {
+      clearInterval(timer)
+      dispatch(reportBattle('messageMonster'))
+      fireBallPlayer!.style.transform='scaleX(-1)'
+      fireBallPlayer!.style.visibility='visible'
+      fireBallPlayer!.style.left='10rem'
+      fireBallPlayer!.style.height ='10px'
+      fireBallPlayer!.style.width ='20%'
+    }
+  
+    let button = document.querySelector('.allDivButton-button--fireCone')
+    button?.addEventListener('mouseup', endtimer) 
+    dispatch(changeDisplayAnimation()) 
+    fireBallPlayer!.style.transform='rotate(0deg)'
+    fireBallPlayer!.style.left='12rem'
+    let timer = setInterval (() => {
+      let interval = Date.now() - date 
+      if (interval < 1000 )
+         if (parseInt(fireBallPlayer!.style.height) < 100 || !fireBallPlayer!.style.height) {
+          fireBallPlayer!.style.height = interval / 5 + 'px'
+         }
+         if (parseInt(fireBallPlayer!.style.width) < 170 || !fireBallPlayer!.style.width) {
+          fireBallPlayer!.style.width = interval / 5 + '%'
+         }
+      if (interval % 3 == 0 && parseInt(fireBallPlayer!.style.width) >= 170) {
+        if (store.getState().playerMana > 0) {
+          dispatch(lostMana('playerMana', 1))
+          dispatch(fireCone())
         }
-      if (parseInt(fireBallPlayer!.style.height) < 100) {
-        fireBallPlayer!.style.height= timePassed  + 'px'
+        else if (store.getState().playerMana <= 0) {
+          alert('vous n avez plus assez de mana')
+        }
       }
-      else if (parseInt(fireBallPlayer!.style.width ) < 125){
-        fireBallPlayer!.style.width= 25 + (timePassed ) + '%'
-      }
-    }, 100);      
+    },20)
   },
   monsterCounter: () => {
-    let random = 2
+    setTimeout(() => {
+    }, 150 )
+    let random = round(1, 3)
     let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
     dispatch(changeDisplayAnimation())
    
@@ -98,12 +128,20 @@ const mapDispatchToProps = (dispatch: any, state: any) => ({
       moving(fireBallMonster!, 'fireBall', 1000, 'monster')  
       dispatch(lostMana('monsterMana', 20))
       setTimeout(()=> {
+        dispatch(reportBattle('messagePlayer'))
         dispatch(fireBall('monster'))
       }, 1000) 
     }
+    else if (random == 3 && (store.getState().monsterMana - 10) > 0 ) {
+      let starMonster: HTMLElement | null = document.getElementById('star-'+store.getState().monsterName)
+      moving(starMonster!, 'heal', 1000, 'monster')
+      dispatch(lostMana('monsterMana', 10))
+      setTimeout(() => {
+          dispatch(heal('monster'))
+      }, 1000);  
+    }
     else {
-      moving(monsterDiv!, 'draw', 1000, 'monster') 
-      dispatch(lostMana('monsterMana', 20))
+      moving(monsterDiv!, 'draw', 1000, 'monster')
       setTimeout(()=> {
         dispatch(reportBattle('messagePlayer'))
         dispatch(attack('monster'))

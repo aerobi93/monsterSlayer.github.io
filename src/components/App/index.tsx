@@ -20,7 +20,7 @@ const App = ({ beeingPlaying, monsterPv, playerPv, changeLevel, end, level }: ap
   if (beeingPlaying) {
     let flexButton: HTMLElement | null = document.querySelector('.allDivButton')
     if (flexButton) {
-       flexButton.style.top = '-12rem'
+       flexButton.style.top = '-28rem'
     }
    
   }
@@ -34,8 +34,13 @@ const App = ({ beeingPlaying, monsterPv, playerPv, changeLevel, end, level }: ap
         const result = confirm("voulez vpus passez au niveau suivant")
         if (result) {
           changeLevel()
-        }
+        }   
       }
+      if (playerPv == 0) {
+          alert('vous avez ete tuez')
+          end()
+        }
+      
     }, 1000 *  1.5)
   }
   return (

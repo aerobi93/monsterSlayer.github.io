@@ -44,13 +44,12 @@ const reducer = (state:any = initialState, action:any = {})  => {
         ...state,
         displayAnimation : !state.displayAnimation
       }
-     case REGAIN_MANA:{ 
-       console.log(state. playerMana, state.monsterMana )
+     case REGAIN_MANA:{
       return {
         ...state,
-        monsterMana :state.monsterMana + 5 < state.monsterManaMax ? state.monsterMana + 5 : state.currentMonster.manaMax,
+        monsterMana: state.monsterMana + 5 <  state.currentMonster.manaMax ? state.monsterMana + 5 : state.currentMonster.manaMax,
         playerMana: state.playerMana + 5 < state.playerManaMax ?  state.playerMana + 5 : state.playerManaMax
-      } }
+      }}
     case HEAL: {
        if (action.value == 'player') {
        return {
@@ -60,20 +59,20 @@ const reducer = (state:any = initialState, action:any = {})  => {
           state.playerPvMax: 
           state.playerPv + Math.floor(15 * ( state.lvUpPlayer) /100),
           messagePlayer: state.playerPv + Math.floor(15 * ( state.lvUpPlayer) /100) >= state.playerPvMax ? 
-          'vous avez recuperez' + (state.playerPvMax  - state.playerPv) + 'pv' : 
-          'vous avez recuperez' + Math.floor(15 * ( state.lvUpPlayer) /100) + 'pv'
+          'vous avez recuperez ' + (state.playerPvMax  - state.playerPv) + 'pv' : 
+          'vous avez recuperez ' + Math.floor(15 * ( state.lvUpPlayer) /100) + 'pv'
         }
      }
-        if (action.value == 'monster') {
+        if (action.value == 'monster'){
           return {
             ...state,
             monsterMana : state.monsterMana - 10,
-            monsterPv: state.monsterPv + state.actualMonster.heal >= state.monsterPvMax ?
-            state.monsterPvMax: 
-            state.monsterPv + state.actualMonster.heal,
-            messageMonster: state.monsterPv + state.actualMonster.heal >= state.monsterPvMax ? 
-            'le monstre  a recuperer' + (state.monsterPvMax  - state.monsterPv) + 'pv' : 
-            'le monstre  a recuperer' + state.actualMonster.heal + 'pv'
+            monsterPv: state.monsterPv + state.currentMonster.heal >= state.currentMonster.pvMax ?
+            state.currentMonster.pvMax: 
+            state.monsterPv + state.currentMonster.heal,
+            messageMonster: state.monsterPv + state.currentMonster.heal >= state.currentMonster.pvMax ? 
+            'le monstre a recuperer' + (state.currentMonster.pvMax  - state.monsterPv) + 'pv' : 
+            'le monstre a recuperer' + state.currentMonster.heal + 'pv'
           }
         }
       }
@@ -112,11 +111,13 @@ const reducer = (state:any = initialState, action:any = {})  => {
           ...state,
           [action.value] : +[state[action.value]] - action.number
         }
-      case FIRE_CONE :
+      case FIRE_CONE :{
+        console.log('state')
         return {
           ...state,
-          monsterPV: state.monnsterPV - (  state.lvUpPlayer / 100)
-        }
+          degat : state.degat + (state.lvUpPlayer / 100),
+          monsterPv: state.monsterPv - (  state.lvUpPlayer / 100)
+        }}
       
       case FIRE_BALL: {
         if (action.attacker == "player") {

@@ -39,7 +39,7 @@ export const fireBall = (attacker:string) => ({
   attacker,
 })
 
-export const fireCone = () => ({
+export const fireCone = () =>({
   type: FIRE_CONE,
 })
 

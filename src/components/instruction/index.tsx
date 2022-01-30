@@ -4,10 +4,10 @@ interface instruction {
     level: number
 }
 const Instruction = ({ level } : instruction) => {
-  let normal_min = 3  * level
-  let normal_max = 5  * level
-  let special_min = 10  * level
-  let special_max = 15  * level
+  let normal_min = Math.floor(3  * level)
+  let normal_max = Math.floor(5  * level)
+  let special_min = Math.floor(10  * level)
+  let special_max = Math.floor(15  * level)
   return(
     <div className='instruction'>
      <div className='instruction-flex-right'>
@@ -20,7 +20,7 @@ const Instruction = ({ level } : instruction) => {
       <div className='instruction-flex' >
         <div className='instruction-motif instruction-motif--round'/>
         <div className='instruction-text'>regain</div>
-        <div className='instruction-dommage'>{ 15 * level}</div>
+        <div className='instruction-dommage'>{ Math.floor( 15 * level )}</div>
       </div>
      </div>
 

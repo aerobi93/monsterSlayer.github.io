@@ -32,6 +32,9 @@ const Button = ({
   heal,
   monsterCounter,
 }: button) => {
+  const handlerMouseDown= () => {
+   fireCone()
+  }
   const handlerClick = (evt: any, value?: boolean) => {
     if (!displayAnimation) {
       if (monsterPv > 0 && playerPv > 0) {
@@ -59,12 +62,6 @@ const Button = ({
       else if (evt.target.name == 'fireBall') {
         fireBall()
       }
-      else if (evt.target.name == 'fireCone') {
-        if (value) {
-          monsterCounter()
-        }
-        fireCone(value)
-      }
     }
   }  
   if ( buttonName !== 'fireCone' ) {
@@ -81,8 +78,10 @@ const Button = ({
       <button 
         className={`${buttonClass}-button ${buttonClass}-button--${buttonName} `}
         name={buttonName}
-        onMouseDown={(evt) => handlerClick(evt)}
-        onMouseUp={(evt)=> handlerClick(evt, true)}
+        onMouseDown={() => handlerMouseDown()}
+        onMouseUp={() =>   setTimeout(() => {
+          monsterCounter()
+        },1000)}
       />
     )
   }
