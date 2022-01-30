@@ -32,44 +32,59 @@ const Button = ({
   heal,
   monsterCounter,
 }: button) => {
-  const handlerClick = (evt: any) => {
-    if (!displayAnimation && monsterPv > 0 && playerPv > 0) {
-      setTimeout(() => {
-        regainMana()
-     },1000 * 1.5)
+  const handlerClick = (evt: any, value?: boolean) => {
+    if (!displayAnimation) {
+      if (monsterPv > 0 && playerPv > 0) {
+        setTimeout(() => {
+          regainMana()
+        },1000 * 1.5)
+        }
+      if (evt.target.name !== 'begin' && evt.target.name !== 'giveUp' && evt.target.name !== 'fireCone') {
+        setTimeout(() => {
+          monsterCounter()
+        },1000)
+      }
+      if (evt.target.name == 'begin') {
+        begin()
+      }
+      else if (evt.target.name == 'giveUp') {
+        end()
+      }
+      else if (evt.target.name == 'heal') {
+        heal()
+      }
+      else if (evt.target.name == 'attack') {
+        attack()
+      }
+      else if (evt.target.name == 'fireBall') {
+        fireBall()
+      }
+      else if (evt.target.name == 'fireCone') {
+        if (value) {
+          monsterCounter()
+        }
+        fireCone(value)
+      }
     }
-
-    if (evt.target.name !== 'begin' && evt.target.name !== 'giveUp') {
-      setTimeout(() => {
-        monsterCounter()
-      },1000)
-    }
-    if (evt.target.name == 'begin') {
-      begin()
-    }
-    else if (evt.target.name == 'giveUp') {
-      end()
-    }
-    else if (evt.target.name == 'heal') {
-      heal()
-    }
-    else if (evt.target.name == 'attack') {
-      attack()
-    }
-    else if (evt.target.name == 'fireBall') {
-      fireBall()
-    }
-
   }  
-  return (
-    <button 
-      className={`${buttonClass}-button ${buttonClass}-button--${buttonName} `}
-      name={buttonName}
-      onClick={(evt) => handlerClick(evt)}
-      >
-        {buttonName}
-      </button>
-  )
+  if ( buttonName !== 'fireCone' ) {
+    return (
+        <button 
+          className={`${buttonClass}-button ${buttonClass}-button--${buttonName} `}
+          name={buttonName}
+          onClick={(evt) => handlerClick(evt)}
+        />
+    )
+  }
+  else {
+    return (
+      <button 
+        className={`${buttonClass}-button ${buttonClass}-button--${buttonName} `}
+        name={buttonName}
+        onMouseDown={(evt) => handlerClick(evt)}
+        onMouseUp={(evt)=> handlerClick(evt, true)}
+      />
+    )
+  }
 }
-
 export default Button

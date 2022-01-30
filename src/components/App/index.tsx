@@ -5,6 +5,7 @@ import { monsterArray  } from '../../utils'
 import Header from '../../container/header';
 import DivAllbutton from '../../container/AllDivButton';
 import DivAllPlayer from '../../container/allDivPlayer';
+import Instruction from '../../container/instruction';
 
 interface app {
   beeingPlaying:boolean
@@ -16,6 +17,13 @@ interface app {
   end : any
 }
 const App = ({ beeingPlaying, monsterPv, playerPv, changeLevel, end, level }: app) => {
+  if (beeingPlaying) {
+    let flexButton: HTMLElement | null = document.querySelector('.allDivButton')
+    if (flexButton) {
+       flexButton.style.top = '-12rem'
+    }
+   
+  }
   if ((monsterPv == 0 || playerPv == 0) && beeingPlaying) {
     setTimeout(() => {
       if (monsterPv == 0) {
@@ -34,7 +42,9 @@ const App = ({ beeingPlaying, monsterPv, playerPv, changeLevel, end, level }: ap
     <div className='container'>
       <Header />
       { beeingPlaying && <DivAllPlayer />}
-      <DivAllbutton />   
+      {!beeingPlaying && <div className='container-whenBigin'> clique sur le touchPad pour commence la partie</div>}
+      <DivAllbutton /> 
+      {beeingPlaying && <Instruction />}  
     </div>
   )
 }

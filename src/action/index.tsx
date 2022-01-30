@@ -7,6 +7,7 @@ export const FIRE_BALL = 'FIRE_BALL'
 export const FIRE_CONE = 'FIRE_CONE'
 export const ICE = 'ICE' 
 export const HEAL = 'HEAL'
+export const LOST_MANA = 'LOST_MANA'
 export const CHANGE_LEVEL = 'CHANGE_LEVEL'
 export const CHANGE_DISPLAY_ANIMATION = 'CHANGE_DISPLAY_ANIMATION'
 export const REPORT_BATTLE = 'REPORT_BATTLE'
@@ -38,9 +39,8 @@ export const fireBall = (attacker:string) => ({
   attacker,
 })
 
-export const fireCone = (attacker:string) => ({
+export const fireCone = () => ({
   type: FIRE_CONE,
-  attacker,
 })
 
 export const ice = (attacker:string) => ({
@@ -52,6 +52,13 @@ export const heal = (value:string) => ({
   type: HEAL, 
   value
 })
+
+export const lostMana = (value: string, number: number) => ({
+  type: LOST_MANA,
+  value,
+  number,
+})
+  
 
 export const changeLevel = () => ({
   type: CHANGE_LEVEL

@@ -115,7 +115,7 @@ export const moving = (elementToMove: HTMLElement, functionName : any , delai: n
           whoIsTouch!.style.display ='inherit'
           whoIsred!.style.display = 'none'
         },50)
-      }, 50)
+      }, 100)
      
     }
     if (functionName == "draw") {
@@ -147,33 +147,53 @@ function draw(timePassed:number, delai:number,  elementToMove:HTMLElement, whoAc
 function fireBall(timePassed:number, delai:number,  elementToMove:HTMLElement, whoAction:string) {
   let playerDiv: HTMLElement | null = document.getElementById(store.getState().gamerName)
   let monsterDiv: HTMLElement | null = document.getElementById(store.getState().monsterName)
+  let imageToMove: HTMLElement| null
+  whoAction == 'player' ? imageToMove = playerDiv : imageToMove = monsterDiv
+
   if (timePassed >= delai) {
-      setTimeout(()=> {
-        playerDiv!.style.right= 'inherit'
-        playerDiv!.style.bottom= 'inherit'
-      elementToMove.style.left = 'inherit'
-      elementToMove.style.visibility='hidden'
+    setTimeout(() => {
+      elementToMove.style.height= "400px"
+      whoAction == 'player' ?  imageToMove!.style.right = 'inherit' : imageToMove!.style.left = 'inherit';
+      whoAction == 'player' ?  elementToMove!.style.left = '2rem' : elementToMove!.style.right = '-9rem';
+      imageToMove!.style.bottom= 'inherit'
       elementToMove.style.height= '0px'
-      },51)
+    }, 1)
+  }
+   
+  if (timePassed < 100){
+    imageToMove!.style.bottom = timePassed / 2   + 'px'  
+    if (whoAction == 'player') {
+      imageToMove!.style.right = timePassed / 1.25   + 'px' 
+      imageToMove!.style.transform= `rotate(${ 360 - timePassed / 30 })`
     }
-   console.log(elementToMove.style.height)
-    if (timePassed < 100){
-      playerDiv!.style.bottom = timePassed / 2   + 'px'  
-      playerDiv!.style.right = timePassed / 1.25   + 'px' 
-      playerDiv!.style.transform= `rotate(${360 - timePassed / 30})`
-     }
-    else if (timePassed > 100 && timePassed < 200){
-      playerDiv!.style.bottom = -timePassed / 7  + 'px'  
-      playerDiv!.style.right = timePassed / 1.25  + 'px' 
-      playerDiv!.style.transform= `rotate(${timePassed / 30})`
-     }
-    if (timePassed > 300) {
-      elementToMove.style.visibility='visible'
-      if (elementToMove.clientHeight <= 70) {
-          elementToMove.style.height = timePassed / 10 + 'px' 
-      }
-      else if (elementToMove.clientHeight > 70) {
-        elementToMove.style.left = timePassed  / 2 + 'px'
-      }
+    else if (whoAction == 'monster') {
+      imageToMove!.style.left = timePassed / 1.25   + 'px' 
+      imageToMove!.style.transform= `rotate(${ timePassed / 30 })`
     }
+  }
+  else if (timePassed > 100 && timePassed < 200){
+    imageToMove!.style.bottom = -timePassed / 7  + 'px' 
+    if (whoAction == 'player') {
+      imageToMove!.style.right = timePassed / 1.25   + 'px' 
+      imageToMove!.style.transform= `rotate(${timePassed / 30 })`
+    }
+    else if (whoAction == 'monster') {
+      imageToMove!.style.left = timePassed / 1.25   + 'px' 
+      imageToMove!.style.transform= `rotate(${ 360 -timePassed / 30 })`
+    }
+  }
+  else if (timePassed > 300) {
+    elementToMove.style.visibility='visible'
+    if (elementToMove.clientHeight <= 70) {
+        elementToMove.style.height = timePassed / 10 + 'px' 
+    }
+    else if (elementToMove.clientHeight > 70) {
+      if (whoAction == 'player') {
+          elementToMove.style.left = 3 + (timePassed  / 30) + 'rem'
+      }
+      else if (whoAction == 'monster') {
+        elementToMove.style.right= -9 + (timePassed  / 30) + 'rem'
+      } 
+    }
+  }
 }

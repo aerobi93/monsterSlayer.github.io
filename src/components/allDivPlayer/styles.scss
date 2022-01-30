@@ -3,33 +3,36 @@
 
 .allDivPlayer {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: baseline;
   margin-top: vars.$margin * 0.5;
+  ;
 }
 .divPlayer{
   position: relative;
-  top: -2rem;
+  bottom: 2rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
   width: 25%;
   margin: 0 vars.$margin * 2; 
   position: relative;  
+
   &-image { 
     position: relative;
-    width: 50%;
+    width: 30%;
     margin-left: auto;
     margin-right: auto;
   }
   &-red {
     margin-left: auto;
     margin-right: auto;
-    width: 5rem;
-    height: 7rem;
+    width: 8rem;
+    height: 12rem;
     padding: 1px;
     background-color: red;
     display: none;
+    
   }
   &-star {
     height: 14rem;
@@ -47,19 +50,22 @@
     height: 70px;
   }
   &-fireBall {
-    width: 25%;
+    background-size:cover ;
     height: 10px;
     position: relative;
     top:-26rem;
     visibility: hidden;
     &--player {
-      -moz-transform:    scaleX(-1); 
-      -o-transform:      scaleX(-1); 
-      -webkit-transform: scaleX(-1); 
-      transform:         scaleX(-1); 
+     -moz-transform:    scaleX(-1); 
+     -o-transform:      scaleX(-1); 
+     -webkit-transform: scaleX(-1); 
+     transform:         scaleX(-1, 1); 
+    }
+    &--player {
+      left: 3rem;
     }
     &--monster {
-      left: -2rem
+      right :- 9rem
     }
   }
   &-playerName {
@@ -73,8 +79,10 @@
   &-message {
     @include mixin.shadow(cyan, black);
     height: 2rem;
-    font-size: vars.$fontSize * 1.5 ;
-    margin-bottom: vars.$margin * 1;
+    font-size: vars.$fontSize * 1.25 ;
+    margin: vars.$margin * 1  vars.$margin * 2.5  0 vars.$margin * 2.5;
+    position: relative;
+    bottom: 6rem;
     
   }
   &-pv, &-mana {

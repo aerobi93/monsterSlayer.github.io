@@ -43,21 +43,18 @@ const DivPlayer = ({
   
   return(
     <figure className='divPlayer'>
-      <span className='divPlayer-star' id={'star-'+namePersonna}>&#9733;
-      </span>
+      <span className='divPlayer-star' id={'star-'+namePersonna}>&#9733;</span>
       <img className='divPlayer-image' src={picture} id={namePersonna} />
       <div className='divPlayer-red' id={`red-${namePersonna}`} />
       <h3 className='divPlayer-playerName'> {namePersonna}</h3>
-      <span className='divPlayer-message'>{message}</span>
       <progress className='divPlayer-pv'max={pvMax} value={pv} />
       <span className='divPlayer-pvText'>{pv} pv</span>
       <progress className='divPlayer-mana'max={manaMax} value={mana} />
       <span className='divPlayer-manaText'>{mana} pm</span> 
-      <div className = 'divPlayer-fireBallContainer'>
-     
+       <div className = 'divPlayer-fireBallContainer'>
         <img className={'divPlayer-fireBall divPlayer-fireBall--'+player}  src={'fire.png'} id={'fireBall-'+namePersonna}/>
       </div>
-    
+      <span className='divPlayer-message'>{message}</span>
       </figure>
   )
 }

@@ -1,4 +1,4 @@
-import { SET_GAMER_NAME, BEGIN, END, HEAL, ATTACK, CHANGE_LEVEL, REGAIN_MANA, CHANGE_DISPLAY_ANIMATION, REPORT_BATTLE } from '../action'
+import { SET_GAMER_NAME, BEGIN, END, HEAL, ATTACK, CHANGE_LEVEL, REGAIN_MANA, CHANGE_DISPLAY_ANIMATION, REPORT_BATTLE, FIRE_BALL, LOST_MANA, FIRE_CONE } from '../action'
 import { monsterArray, round } from '../utils'
 
 const initialState = {
@@ -44,12 +44,13 @@ const reducer = (state:any = initialState, action:any = {})  => {
         ...state,
         displayAnimation : !state.displayAnimation
       }
-     case REGAIN_MANA: 
+     case REGAIN_MANA:{ 
+       console.log(state. playerMana, state.monsterMana )
       return {
         ...state,
-        monsterMana :state.monsterMana +5 < state.monsterManaMax ? state.monsterMana + 5 : state.currentMonster.manaMax,
+        monsterMana :state.monsterMana + 5 < state.monsterManaMax ? state.monsterMana + 5 : state.currentMonster.manaMax,
         playerMana: state.playerMana + 5 < state.playerManaMax ?  state.playerMana + 5 : state.playerManaMax
-      } 
+      } }
     case HEAL: {
        if (action.value == 'player') {
        return {
@@ -95,7 +96,6 @@ const reducer = (state:any = initialState, action:any = {})  => {
             0
           }
         }
-
         if (action.attacker == "monster") {
           let dommageInflige = round(state.currentMonster.dommage_min, state.currentMonster.dommage_max)
           return {
@@ -107,6 +107,40 @@ const reducer = (state:any = initialState, action:any = {})  => {
           }
         }
       }
+      case LOST_MANA: 
+        return {
+          ...state,
+          [action.value] : +[state[action.value]] - action.number
+        }
+      case FIRE_CONE :
+        return {
+          ...state,
+          monsterPV: state.monnsterPV - (  state.lvUpPlayer / 100)
+        }
+      
+      case FIRE_BALL: {
+        if (action.attacker == "player") {
+          let dommageInflige = Math.floor( round(10 , 15) * (state.lvUpPlayer) / 100)
+          return {
+            ...state,
+            dommage: dommageInflige,
+            monsterPv : state.monsterPv - dommageInflige > 0 ? 
+            state.monsterPv - dommageInflige :
+            0
+          }
+        }
+        if (action.attacker == "monster") {
+          let dommageInflige = round(state.currentMonster.special_min, state.currentMonster.special_max)
+          return {
+            ...state,
+            dommage: dommageInflige,
+            playerPv : state.playerPv - dommageInflige > 0 ? 
+            state.playerPv - dommageInflige :
+            0
+          }
+        }
+      }
+
       case CHANGE_LEVEL: 
         return {
           ...state,

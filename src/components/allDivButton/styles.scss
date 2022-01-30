@@ -3,36 +3,77 @@
 
 .allDivButton {
   display: flex;
+  width: 25rem;
+  height: 25rem;
   justify-content: center;
+  align-content: center;
   position: relative;
-  bottom: 8rem;
+  top: 12rem;
+  margin: auto;
+  background-image: url('../../../public/ps5.png');
+  background-repeat: no-repeat;
+  background-size: contain;
   
+  &-container {
+    display: flex;
+    flex-direction: column;
+  }
+  &-span {
+    @include mixin.shadow(white,black);
+    position: relative;
+    bottom: 3rem;
+    width: 100%;
+    font-size: vars.$fontSize *1.25 ;
+    text-align: center;
+  }
+
   &-button {
-    @include mixin.shadow(white, blue);
-    font-size: vars.$fontSize *1.5;
-    font-family: vars.$lato;
-    text-transform: capitalize;
-    padding: vars.$padding * 0.25 vars.$padding * 0.5; 
-    border-radius: 15px;
-    margin: vars.$margin * 0.5;
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    flex-direction: column;
+    border-radius: 50%;
     background-color: transparent;
     border: none;
-    
+    position: relative;
+
     &--begin {
-      background-color: yellow;
+      width: 10rem;
+      height: 6rem;
+      bottom: 20rem;
+      border-bottom-left-radius: 40%;
+      border-bottom-right-radius: 40%;
+      border-top-left-radius: 20%;
+      border-top-right-radius: 20%;
       margin-top: vars.$margin * 10;
     }
     &--attack {
-      background-color: red;
+      padding-bottom: vars.$padding;
+      left: 11.2rem;
+      top: 1.8rem;
     }
     &--fireBall {
-      background-color: orangered;
+      left: 7.4rem;
+      top: 3.5rem;
+      padding-bottom: vars.$padding;
     }
+
+    &--fireCone {
+      top: 5.5rem;
+      left: 7.2rem;
+      padding-bottom: vars.$padding;
+    }
+
     &--heal {
-      background-color: yellowgreen;
+      top: 3.8rem;
+      left: 7rem;
     }
     &--giveUp {
-      background-color: black;
+      width: 0.75rem;
+      height: 1.5rem;
+      top: 1rem;
+      right: 10rem;
+      transform: rotate(-15deg);
     }
   }
  

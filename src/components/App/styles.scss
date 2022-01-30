@@ -1,9 +1,24 @@
 @use 'src/styles/vars';
+@use 'src/styles/mixin';
 
 .container {
     background-color: blue;
+   
     width: 100%;
     height: 100vh;
     margin: auto;
     font-family: vars.$lato;
+    background-image: url('../../../public/galaxy7.jpg');
+    background-size: cover;
+
+    &-whenBigin {
+        @include mixin.shadow(black, red);
+        position: relative;
+        top: 27rem;
+        margin: auto;
+        text-align: center;
+        width: 15%;
+        font-size: vars.$fontSize *1.25;
+        font-family: vars.$lato;
+    }
 }
